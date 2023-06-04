@@ -1,0 +1,19 @@
+.header {
+    max-width: 100vw;
+    background-color: #073042;
+    ;
+}
+
+.header__image {
+    width: 38px;
+    height: 38px;
+    /* margin: 18px auto 18px 70px; */
+}
+
+.header__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 70px;
+}

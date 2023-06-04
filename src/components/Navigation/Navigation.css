@@ -1,0 +1,36 @@
+.navigation {
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-style: normal;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.navigation__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.navigation__movies {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+
+}
+
+.navigation__saved-movies {
+    font-weight: 400;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    margin-right: 50px;
+}
+
+.navigation__account {
+    color: #fff;
+    text-decoration: none;
+    box-sizing: content-box;
+}
