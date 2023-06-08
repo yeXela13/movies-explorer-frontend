@@ -1,13 +1,12 @@
 .header {
-    max-width: 100vw;
+    max-width: 100%;
     background-color: #073042;
-    ;
+    padding: 18px 70px;
 }
 
 .header__image {
-    width: 38px;
-    height: 38px;
-    /* margin: 18px auto 18px 70px; */
+    max-width: 38px;
+    max-height: 38px;
 }
 
 .header__container {
@@ -15,5 +14,18 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 70px;
+}
+
+@media screen and (max-width: 810px) {
+    .header {
+        max-width: calc(100% - 60px);
+        padding: 18px 30px;
+    }
+}
+
+@media screen and (max-width: 568px) {
+    .header {
+        max-width: calc(100% - 28px);
+        padding: 18px 14px;
+    }
 }

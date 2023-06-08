@@ -1,5 +1,6 @@
 import React from 'react';
 import './Promo.css'
+import '../Main.css'
 import bigLogo from '../../../images/bigLogo.svg';
 
 function Promo() {
