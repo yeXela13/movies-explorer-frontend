@@ -7,11 +7,21 @@ import { Link } from "react-router-dom";
 
 function BurgerMenu() {
 
+const [openBurger, setOpenBurger] = useState(false);
+
+    function openMenu() { 
+        setOpenBurger(true); 
+        } 
+        
+        function closeMenu() { 
+        setOpenBurger(false); 
+        }
+       
 
     return (
         <section className="burger">
-            <img className="burger__image" src={burgerMenu} alt="меню" />
-            <nav className="burger__menu">
+        {/* <img className="burger__image" src={burgerMenu} alt="меню" /> */}
+            <nav className={openBurger ? ["burger__menu", "burger__menu_active"].join(' ') : ["burger__menu"]}>
                 <div className="burger__container">
                 <Link to="/" className="navigation__links">Главная</Link>
                 <Link to="/movies" className="navigation__links">Фильмы</Link>
@@ -19,8 +29,7 @@ function BurgerMenu() {
                 </div>
                 <Link to="/profile" className="navigation__account"><img src={profile} alt='аккаунт' /></Link>
             </nav>
-            <img className="burger__image" src={burgerMenuClose} alt="закрыть" />
-        </section>
+            {openBurger ? <img className="burger__image" src={burgerMenuClose} alt="закрыть" onClick={closeMenu}/> : <img className="burger__image" src={burgerMenu} alt="меню" onClick={openMenu}/>}        </section>
     )
 
 }
