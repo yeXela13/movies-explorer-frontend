@@ -14,8 +14,8 @@ function Navigation({ email, onLogOut }) {
                     <Link to="/sign-in" className="navigation__login">Войти</Link>} />
                 <Route path="/" element={
                     <div className="navigation__container">
-                        <Link to="/movies" className="navigation__movies">Фильмы</Link>
-                        <Link to="/saved-movies" className="navigation__saved-movies">Сохраненные фильмы</Link> 
+                        <Link to="/movies" className="navigation__links">Фильмы</Link>
+                        <Link to="/saved-movies" className="navigation__links">Сохраненные фильмы</Link> 
                         <Link to="/profile" className="navigation__account"><img src={profile} alt='аккаунт'/></Link> 
                     </div>
                 } />
