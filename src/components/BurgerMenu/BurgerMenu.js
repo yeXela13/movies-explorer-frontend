@@ -7,19 +7,29 @@ import { Link } from "react-router-dom";
 
 function BurgerMenu() {
 
+    const [openBurger, setOpenBurger] = useState(false);
+
+    function openMenu() {
+        setOpenBurger(true);
+    }
+
+    function closeMenu() {
+        setOpenBurger(false);
+    }
 
     return (
         <section className="burger">
-            <img className="burger__image" src={burgerMenu} alt="меню" />
-            <nav className="burger__menu">
+            <nav className={openBurger ? ["burger__menu", "burger__menu_active"].join(' ') : ["burger__menu"]}>
+
                 <div className="burger__container">
-                <Link to="/" className="navigation__links">Главная</Link>
-                <Link to="/movies" className="navigation__links">Фильмы</Link>
-                <Link to="/saved-movies" className="navigation__links">Сохраненные фильмы</Link>
+                    <Link to="/" className="navigation__links">Главная</Link>
+                    <Link to="/movies" className="navigation__links">Фильмы</Link>
+                    <Link to="/saved-movies" className="navigation__links">Сохраненные фильмы</Link>
                 </div>
                 <Link to="/profile" className="navigation__account"><img src={profile} alt='аккаунт' /></Link>
             </nav>
-            <img className="burger__image" src={burgerMenuClose} alt="закрыть" />
+            {openBurger ? <img className="burger__image" src={burgerMenu} alt="меню" onClick={closeMenu} /> : <img className="burger__image" src={burgerMenuClose} alt="закрыть" onClick={openMenu} />}
+
         </section>
     )
 

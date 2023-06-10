@@ -2,6 +2,7 @@ import React from 'react';
 import './Promo.css'
 import '../Main.css'
 import bigLogo from '../../../images/bigLogo.svg';
+import Header from '../../Header/Header';
 
 function Promo() {
 
@@ -10,6 +11,7 @@ function Promo() {
       <h1 className='promo__title'>Учебный проект студента факультета Веб-разработки.</h1>
       <img className='promo__image' src={bigLogo} alt='лого' />
     </section>
+
   );
 }
 
