@@ -1,9 +1,8 @@
 .navigation {
     color: #fff;
     text-decoration: none;
-    font-family: 'Inter';
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .navigation__container {
@@ -24,6 +23,8 @@
     cursor: pointer;
     opacity: 0.7;
 }
+
+
 
 .navigation__login {
     padding: 8px 20px;
@@ -74,6 +75,10 @@
     opacity: 0.7;
 }
 
+.navigation__active {
+    font-weight: 500;
+}
+
 @media screen and (max-width: 768px) {
     .navigation {
         display: none;
@@ -82,7 +87,12 @@
     .navigation__links {
         color: #fff;
         text-decoration: none;
-        margin: 28px 0 0 0;
+        margin: 28px auto;
+    }
+
+    .navigation__active {
+        padding-bottom: 4px;
+        border-bottom: solid 1px #fff;
     }
 
     .navigation__account {

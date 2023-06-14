@@ -1,8 +1,8 @@
 .page {
+    font-family: 'Inter', Arial, sans-serif;
     max-width: 1280px;
     max-width: 100%;
     background-color: #202020;
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     color: #fff;
@@ -33,7 +33,6 @@
 }
 
 .main__text {
-    /* max-width: 550px;     */
     font-size: 14px;
     line-height: 20px;
     margin-top: 26px;

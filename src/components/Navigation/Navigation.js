@@ -4,6 +4,7 @@ import './Navigation.css'
 import profile from '../../images/profile.svg';
 
 function Navigation({ email, onLogOut }) {
+    const pathname = window.location.pathname;
 
     return (
         <div className="navigation">
@@ -14,9 +15,9 @@ function Navigation({ email, onLogOut }) {
                     <Link to="/sign-in" className="navigation__login">Войти</Link>} />
                 <Route path="/" element={
                     <div className="navigation__container">
-                        <Link to="/movies" className="navigation__links">Фильмы</Link>
-                        <Link to="/saved-movies" className="navigation__links">Сохраненные фильмы</Link> 
-                        <Link to="/profile" className="navigation__account"><img src={profile} alt='аккаунт'/></Link> 
+                        <Link to="/movies" className={`navigation__links ${pathname === "/movies" ? 'navigation__active':' '}`}>Фильмы</Link>
+                        <Link to="/saved-movies" className={`navigation__links ${pathname === "/saved-movies" ? 'navigation__active':' '}`}>Сохраненные фильмы</Link> 
+                        <Link to="/profile" className={`navigation__account ${pathname === "/profile" ? 'navigation__active':' '}`}><img src={profile} alt='аккаунт'/></Link> 
                     </div>
                 } />
             </Routes>

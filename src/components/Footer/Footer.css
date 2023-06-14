@@ -1,9 +1,8 @@
 .footer {
     padding: 79px 70px 20px;
-    font-family: 'Inter';
     font-style: normal;
-    color: #FFF;
     font-weight: 400;
+    color: #FFF;
     display: flex;
     flex-direction: column;
 }

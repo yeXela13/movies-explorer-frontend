@@ -17,19 +17,21 @@ function BurgerMenu() {
         setOpenBurger(false);
     }
 
+    const pathname = window.location.pathname;
+
     return (
         <section className="burger">
+
+            {openBurger ? <div className="burger__overlay" onClick={closeMenu}></div> : null }
+            {openBurger ? <img className="burger__image" src={burgerMenuClose} alt="закрыть" onClick={closeMenu} /> : <img className="burger__image" src={burgerMenu} alt="меню" onClick={openMenu} />}
             <nav className={openBurger ? ["burger__menu", "burger__menu_active"].join(' ') : ["burger__menu"]}>
-
                 <div className="burger__container">
-                    <Link to="/" className="navigation__links">Главная</Link>
-                    <Link to="/movies" className="navigation__links">Фильмы</Link>
-                    <Link to="/saved-movies" className="navigation__links">Сохраненные фильмы</Link>
+                    <Link to="/" className={`navigation__links ${pathname === "/" ? 'navigation__active' : ' '}`}>Главная</Link>
+                    <Link to="/movies" className={`navigation__links ${pathname === "/movies" ? 'navigation__active' : ' '}`}>Фильмы</Link>
+                    <Link to="/saved-movies" className={`navigation__links ${pathname === "/saved-movies" ? 'navigation__active' : ' '}`}>Сохраненные фильмы</Link>
                 </div>
-                <Link to="/profile" className="navigation__account"><img src={profile} alt='аккаунт' /></Link>
+                <Link to="/profile" className={`navigation__account ${pathname === "/profile" ? 'navigation__active' : ' '}`}><img src={profile} alt='аккаунт' /></Link>
             </nav>
-            {openBurger ? <img className="burger__image" src={burgerMenu} alt="меню" onClick={closeMenu} /> : <img className="burger__image" src={burgerMenuClose} alt="закрыть" onClick={openMenu} />}
-
         </section>
     )
 

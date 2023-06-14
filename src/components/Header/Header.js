@@ -10,8 +10,8 @@ function Header() {
         <section className='header'>
             <div className='header__container'>
                 <img className='header__image' src={mainLogo} alt='лого' />
-                <BurgerMenu />
                 <Navigation />
+                <BurgerMenu />
             </div>
         </section>
     );
