@@ -9,18 +9,18 @@ function Portfolio() {
         <section className='portfolio'>
             <h2 className='portfolio__title'>Портфолио</h2>
             <nav className='portfolio__links'>
-                <div className='portfolio__container'>
-                <p className='portfolio__text'>Статичный сайт</p>
-                <a className='portfolio__link' href="https://github.com/yeXela13/how-to-learn/" target="blank" rel="noopener noreferrer"><img className='portfolio__arrow' src={arrow} alt='перейти'/></a>
-                </div>
-                <div className='portfolio__container'>
-                <a className='portfolio__text'>Адаптивный сайт</a>
-                <a className='portfolio__link' href="https://github.com/yeXela13/russian-travel" target="blank" rel="noopener noreferrer"><img className='portfolio__arrow' src={arrow} alt='перейти'/></a>
-                </div>
-                <div className='portfolio__container'>
-                <a className='portfolio__text'>Одностраничное приложение</a>
-                <a className='portfolio__link' href="https://github.com/yeXela13/react-mesto-api-full-gha" target="blank" rel="noopener noreferrer"><img className='portfolio__arrow' src={arrow} alt='перейти'/></a>
-                </div>
+                <ul className='portfolio__container'>
+                <li><a className='portfolio__text' href="https://github.com/yeXela13/how-to-learn/" target="blank" rel="noopener noreferrer">Статичный сайт</a></li>
+                <li><a className='portfolio__link' href="https://github.com/yeXela13/how-to-learn/" target="blank" rel="noopener noreferrer"><img className='portfolio__arrow' src={arrow} alt='перейти'/></a></li>
+                </ul>
+                <ul className='portfolio__container'>
+                <li><a className='portfolio__text' href="https://github.com/yeXela13/russian-travel" target="blank" rel="noopener noreferrer">Адаптивный сайт</a></li>
+                <li><a className='portfolio__link' href="https://github.com/yeXela13/russian-travel" target="blank" rel="noopener noreferrer"><img className='portfolio__arrow' src={arrow} alt='перейти'/></a></li>
+                </ul>
+                <ul className='portfolio__container'>
+                <li><a className='portfolio__text' href="https://github.com/yeXela13/react-mesto-api-full-gha" target="blank" rel="noopener noreferrer">Одностраничное приложение</a></li>
+                <li><a className='portfolio__link' href="https://github.com/yeXela13/react-mesto-api-full-gha" target="blank" rel="noopener noreferrer"><img className='portfolio__arrow' src={arrow} alt='перейти'/></a></li>
+                </ul>
             </nav>
 
         </section >

@@ -1,9 +1,10 @@
-.cardList {
+.cards {
+    max-width: 100%;
     padding: 117px 70px 80px;
     list-style-type: none;
 }
 
-.cardList__container {
+.cards__container {
     margin: 0;
     padding: 0;
     display: grid;
@@ -14,7 +15,7 @@
     row-gap: 32px;
 }
 
-.cardList__more-button {
+.cards__more-button {
     font-weight: 500;
     font-size: 12px;
     line-height: 15px;
@@ -35,23 +36,23 @@
 
 }
 
-.cardList__more-button:hover {
+.cards__more-button:hover {
     transform: scale(1.2);
     transform-origin: center;
     opacity: 0.7;
 }
 
-.cardList__more-button:active {
+.cards__more-button:active {
     transform: scale(1);
 }
 
 @media screen and (max-width: 812px) {
-    .cardList {
+    .cards {
         padding: 70px 30px 80px;
 
     }
 
-    .cardList__container {
+    .cards__container {
         grid-template-columns: repeat(auto-fit, minmax(342px, 1fr));
         column-gap: 24px;
         row-gap: 35px;
@@ -59,11 +60,11 @@
 }
 
 @media screen and (max-width: 568px) {
-    .cardList {
+    .cards {
         padding: 40px 10px 80px;
     }
 
-    .cardList__container {
+    .cards__container {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         row-gap: 16px;
     }

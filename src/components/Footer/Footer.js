@@ -8,7 +8,7 @@ function Footer() {
         return date.getFullYear();
       }
        return (
-        <section className='footer'>
+        <footer className='footer'>
             <h2 className='footer__title'>Учебный проект Яндекс.Практикум х&nbsp;BeatFilm.</h2>
             <div className='footer__container'>
                 <nav className='footer__links'>
@@ -17,7 +17,7 @@ function Footer() {
                 </nav>
                 <p className='footer__copiright'>@{getYear()}</p>
             </div>
-        </section>
+        </footer>
     );
 }
 

@@ -9,8 +9,8 @@ function Profile() {
 
     return (
         <>
-            <section className='profile'>
             <Header />
+            <section className='profile'>
             <div className='profile__container'>
                 <h2 className='profile__title'>Привет, Виталий!</h2>
                 <form className='profile__form'>

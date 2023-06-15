@@ -6,20 +6,24 @@ import Techs from './Techs/Techs';
 import AboutMe from './AboutMe/AboutMe';
 import Footer from '../Footer/Footer';
 import Portfolio from './Portfolio/Portfolio';
+import Header from '../Header/Header';
 
 
 function Main() {
 
     return (
-        <main className='page'>
-            <Promo />
-            <AboutProject />
-            <Techs />
-            <AboutMe />
-            <Portfolio />
-            <Footer />
 
-        </main>
+        <div className='page'>
+            <Header />
+            <main>
+                <Promo />
+                <AboutProject />
+                <Techs />
+                <AboutMe />
+                <Portfolio />
+            </main>
+            <Footer />
+        </div>
     );
 
 }

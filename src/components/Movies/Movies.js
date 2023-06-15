@@ -13,12 +13,14 @@ function Movies() {
 
 
     return (
-        <main className='page'>
+        <div className='page'>
             <Header />
-            <SearchForm />
-            <MoviesCardList />
+            <main>
+                <SearchForm />
+                <MoviesCardList />
+            </main>
             <Footer />
-        </main>
+        </div>
     );
 
 }

@@ -7,7 +7,7 @@ function Navigation({ email, onLogOut }) {
     const pathname = window.location.pathname;
 
     return (
-        <div className="navigation">
+        <section className="navigation">
             <Routes>
                 <Route path="/sign-in" element={
                     <Link to="/sign-up" className="navigation__registration">Регистрация</Link>} />
@@ -21,7 +21,7 @@ function Navigation({ email, onLogOut }) {
                     </div>
                 } />
             </Routes>
-        </div>
+        </section>
     )
 
 

@@ -1,14 +1,24 @@
 .header {
     position: relative;
     max-width: 100%;
-    background-color: transparent;
+    background-color: #202020;
+    border: none;
     padding: 18px 70px;
     z-index: 1;
+}
+
+.header-main-color {
+    background-color: #073042;
 }
 
 .header__image {
     max-width: 38px;
     max-height: 38px;
+    cursor: pointer;
+}
+
+.header__image:hover {
+    opacity: 0.7;
 }
 
 .header__container {

@@ -11,15 +11,15 @@ function SearchForm() {
     }
 
     return (
-        <section className="searchForm">
-            <form className="searchForm__form">
-                <div className="searchForm__container">
-                    <input className="searchForm__input" name="search" type="text" placeholder="Фильм" required />
-                    <button className="searchForm__button"></button>
+        <section className="search">
+            <form className="search__form">
+                <div className="search__container">
+                    <input className="search__input" name="search" type="text" placeholder="Фильм" required />
+                    <button className="search__button"></button>
                 </div>
-                <label className="searchForm__toggle">
+                <label className="search__toggle">
                     <Switch
-                        className="searchForm__checkbox"
+                        className="search__checkbox"
                         checked={isChecked}
                         onChange={handleSwitchChange}
                         onColor="#3DDC84"
@@ -30,10 +30,10 @@ function SearchForm() {
                         height={14}
                         handleDiameter={10}
                     />
-                    <p className="searchForm__text">Короткометражки</p>
+                    <p className="search__text">Короткометражки</p>
                 </label>
             </form>
-            <div className='searchForm__line'></div>
+            <div className='search__line'></div>
         </section>
     );
 
