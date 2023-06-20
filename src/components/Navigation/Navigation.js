@@ -9,10 +9,10 @@ function Navigation({ email, onLogOut }) {
     return (
         <section className="navigation">
             <Routes>
-                <Route path="/sign-in" element={
-                    <Link to="/sign-up" className="navigation__registration">Регистрация</Link>} />
-                <Route path="/sign-up" element={
-                    <Link to="/sign-in" className="navigation__login">Войти</Link>} />
+                <Route path="/signin" element={
+                    <Link to="/signup" className="navigation__registration">Регистрация</Link>} />
+                <Route path="/signup" element={
+                    <Link to="/signin" className="navigation__login">Войти</Link>} />
                 <Route path="/" element={
                     <div className="navigation__container">
                         <Link to="/movies" className={`navigation__links ${pathname === "/movies" ? 'navigation__active':' '}`}>Фильмы</Link>
