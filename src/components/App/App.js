@@ -4,7 +4,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import api from '../../utils/MainApi';
 import { registration, authorization, getContent } from '../../utils/auth'
 import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute'
-import Main from '../Main/Main.js'
+import Main from '../Main/Main'
 import NotFound from '../NotFound/NotFound';
 import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
@@ -101,9 +101,9 @@ function App() {
         tokenCheck();
     }, [tokenCheck]);
 
-    if (loading) {
-        return Preloader;
-    }
+    // if (loading) {
+    //     return Preloader;
+    // }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
