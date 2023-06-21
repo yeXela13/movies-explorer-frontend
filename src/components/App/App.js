@@ -80,7 +80,7 @@ function App() {
                     throw new Error('Токен не передан или передан не в том формате')
                 }
                 setLoggedIn(true)
-                navigate("/", { replace: true })
+                navigate("/movies", { replace: true })
             } catch (e) {
                 console.error(e)
             } finally {
@@ -125,18 +125,18 @@ function App() {
                 <Route path="/movies" element={
                     <ProtectedRouteElement
                         loggedIn={loggedIn}
-                        element={<Movies />}
+                        element={Movies}
                     />} />
                 <Route path="/saved-movies" element={
                     <ProtectedRouteElement
                         loggedIn={loggedIn}
-                        element={<SavedMovies />}
+                        element={SavedMovies}
                     />} />
                 <Route path="/profile" element={
                     <ProtectedRouteElement
                         loggedIn={loggedIn}
                         onLogout={logout}
-                        element={<Profile />}
+                        element={Profile}
                     />} />
 
                 <Route path="*" element={<NotFound />} />
