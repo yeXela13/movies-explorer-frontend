@@ -15,6 +15,7 @@ import Preloader from '../Movies/Preloader/Preloader';
 
 export const CurrentUserContext = createContext();
 
+
 function App() {
 
     const [currentUser, setCurrentUser] = useState({});
@@ -25,47 +26,47 @@ function App() {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        loggedIn &&
-            Promise.all([api.getUserInfo(),])
-                .then(([userData, cardsData]) => {
-                    setCurrentUser(userData);
-                    // setCards(cardsData.reverse());
-                })
-                .catch((res) => console.log(res));
-    }, [loggedIn]);
+    // useEffect(() => {
+    //     loggedIn &&
+    //         Promise.all([api.getUserInfo(),])
+    //             .then(([userData, cardsData]) => {
+    //                 setCurrentUser(userData);
+    //                 // setCards(cardsData.reverse());
+    //             })
+    //             .catch((res) => console.log(res));
+    // }, [loggedIn]);
 
-    const authenticate = useCallback(data => {
-        if (data.token) {
-            localStorage.setItem('token', data.token);
-            setLoggedIn(true);
-        }
-    }, [])
+    // const authenticate = useCallback(data => {
+    //     if (data.token) {
+    //         localStorage.setItem('token', data.token);
+    //         setLoggedIn(true);
+    //     }
+    // }, [])
 
-    const register = useCallback(async (userRegistrData) => {
-        try {
-            const data = await registration(userRegistrData)
-            authenticate(data);
-            navigate("/signin", { replace: true });
-        } catch (e) {
-            console.error(e)
-        }
-        finally {
-            setLoading(false)
-        }
-    }, [authenticate, navigate]);
+    // const register = useCallback(async (userRegistrData) => {
+    //     try {
+    //         const data = await registration(userRegistrData)
+    //         authenticate(data);
+    //         navigate("/signin", { replace: true });
+    //     } catch (e) {
+    //         console.error(e)
+    //     }
+    //     finally {
+    //         setLoading(false)
+    //     }
+    // }, [authenticate, navigate]);
 
-    const login = useCallback(async (userLoginData) => {
-        try {
-            const data = await authorization(userLoginData)
-            authenticate(data);
-            navigate("/", { replace: true });
-        } catch (e) {
-            console.error(e)
-        } finally {
-            setLoading(false)
-        }
-    }, [authenticate, navigate])
+    // const login = useCallback(async (userLoginData) => {
+    //     try {
+    //         const data = await authorization(userLoginData)
+    //         authenticate(data);
+    //         navigate("/movies", { replace: true });
+    //     } catch (e) {
+    //         console.error(e)
+    //     } finally {
+    //         setLoading(false)
+    //     }
+    // }, [authenticate, navigate])
 
     const tokenCheck = useCallback(async () => {
         const token = localStorage.getItem('token')
@@ -95,11 +96,11 @@ function App() {
         userLoginData({ email: '', password: '' })
         navigate("/signin", { replace: true });
         setLoading(false)
-    }, [navigate])
+    }, [])
 
     useEffect(() => {
         tokenCheck();
-    }, [tokenCheck]);
+    }, []);
 
     // if (loading) {
     //     return Preloader;
@@ -108,17 +109,17 @@ function App() {
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <Routes>
-                <Route index path="/" element={<Main />} />
+                <Route path="/" element={<Main />} />
 
                 <Route path="/signin" loggedIn={loggedIn}
                     element={
                         <Login
-                            onLogin={login}
+                            // onLogin={login}
 
                         />} />
                 <Route path="/signup" element={
                     <Register
-                        onRegister={register}
+                        // onRegister={register}
                     />}
                 />
 

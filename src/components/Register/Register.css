@@ -44,13 +44,18 @@
     margin-bottom: 5px;
 }
 
-.register__span {
+.register__error {
     padding: 0;
     margin: 6px 0 0 0;
     font-weight: 400;
     font-size: 10px;
     line-height: 12px;
     color: #EE3465;
+    /* display: none; */
+}
+
+.register__span-active {
+    display: block;
 }
 
 .register__fieldset {
@@ -102,8 +107,14 @@
     opacity: 0.8;
 }
 
+
 .register__button:hover {
     opacity: 0.7;
+}
+
+.register__button-disabled:hover {
+    cursor: default;
+    opacity: 0.8;
 }
 
 .register__text {
