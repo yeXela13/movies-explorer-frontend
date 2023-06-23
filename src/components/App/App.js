@@ -1,8 +1,8 @@
 import '../../index.css';
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import api from '../../utils/MainApi';
-import { registration, authorization, getContent } from '../../utils/auth'
+import { getContent } from '../../utils/auth'
 import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute'
 import Main from '../Main/Main'
 import NotFound from '../NotFound/NotFound';

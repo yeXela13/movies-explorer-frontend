@@ -39,7 +39,7 @@ function Login() {
             console.log(error)
             if (error.response && error.response.status === 400) {
                 setRegistrationError('Вы ввели неправильный логин или пароль');
-            } if ('token' === undefined) {
+            } else if ('token' === undefined) {
                 setRegistrationError('При авторизации произошла обшибка. Токен не передан или передан не в том формате');
             }
             else {

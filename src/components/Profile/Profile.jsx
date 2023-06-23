@@ -8,14 +8,14 @@ import api from '../../utils/MainApi'
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 
 function Profile() {
-    const { currentUser, setCurrentUser, loggedIn, setLoggedIn, loading, setLoading } = useContext(CurrentUserContext);
+    const { currentUser, setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);
     const [name, setName] = useState(currentUser.name);
     const [email, setEmail] = useState(currentUser.email);
     const [isNameValid, setIsNameValid] = useState(true);
     const [isEmailValid, setIsEmailValid] = useState(true);
-    const isFormValid = isNameValid && isEmailValid;
-    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+    const [isChange, setChange] = useState(true);
     const [registrationError, setRegistrationError] = useState('');
+    const isFormValid = isNameValid && isEmailValid;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,6 +24,7 @@ function Profile() {
                 setCurrentUser(data);
                 setName(data.name)
                 setEmail(data.email)
+                setChange(true);
             }).catch(error => {
                 console.log(error)
             });
@@ -43,23 +44,19 @@ function Profile() {
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
         if (isNameValid && isEmailValid) {
-            api.setUserInfo({
-                name,
-                email,
-            });
+            try {
+                await api.setUserInfo(name, email);
+                setChange(false);
+                setCurrentUser({ name, email })
+            } catch (error) {
+                if (error.response && error.response.status === 409) {
+                    setRegistrationError('Пользователь с таким email уже существует');
+                } else {
+                    setRegistrationError('При обновления профиля произошла ошибка');
+                }
+            }
         }
-    },
-// сообщение об ошибке
-
-// if (error.response && error.response.status === 400) {
-//     setRegistrationError('Вы ввели неправильный логин или пароль');
-// } if ('token' === undefined) {
-//     setRegistrationError('При авторизации произошла обшибка. Токен не передан или передан не в том формате');
-// }
-// else {
-//     setRegistrationError('При авторизации произошла ошибка, переданный токен не корректен');
-// }
-        [name, email, isNameValid, isEmailValid])
+    }, [name, email, isNameValid, isEmailValid, isChange]); // Добавлено isChange в зависимости массива
 
     const logout = useCallback(() => {
         localStorage.removeItem('token');
@@ -84,9 +81,8 @@ function Profile() {
                                     name='name'
                                     placeholder='Имя'
                                 />
-
-                                {!isNameValid && isFormSubmitted && <span className='profile__error'>Некорректное имя</span>}
                             </label>
+                            {!isNameValid && <span className='profile__error'>Некорректное имя</span>}
                             <label className='profile__fields'>
                                 <p className='profile__input-email'>E-mail</p>
                                 <input className='profile__input'
@@ -96,12 +92,12 @@ function Profile() {
                                     name='email'
                                     placeholder='E-mail'
                                 />
-                                {!isEmailValid && isFormSubmitted && <span className='profile__error'>Введите корректный e-mail</span>}
                             </label>
+                            {!isEmailValid && <span className='profile__error'>Введите корректный e-mail</span>}
                             {registrationError && <span className="register__error">{registrationError}</span>}
                         </fieldset>
                         <div className='profile__box'>
-                            <button className={`profile__button_edit ${!isFormValid && isFormSubmitted ? 'profile__button_edit_disabled' : ''}`} type='submit' disabled={!isFormValid}>Редактировать</button>
+                            <button className={`profile__button_edit_disabled ${isFormValid && isChange ? 'profile__button_edit' : ''}`} type='submit' disabled={!isFormValid}>Редактировать</button>
                             <button className='profile__button_logout' onClick={logout} >Выйти из аккаунта</button>
                         </div>
                     </form>
