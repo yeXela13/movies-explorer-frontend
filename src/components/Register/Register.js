@@ -1,17 +1,18 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useContext } from 'react';
 import validator from 'validator';
 import { useNavigate } from 'react-router-dom';
 import './Register.css'
 import { Link } from 'react-router-dom';
 import mainLogo from '../../images/mainLogo.svg';
 import { registration } from '../../utils/auth';
+import { CurrentUserContext } from '../../context/CurrentUserContext';
 
 function Register() {
+    const { setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);
     const [userRegistrData, setRegistrData] = useState({ name: '', email: '', password: '' });
     const [registrationError, setRegistrationError] = useState('');
     const [isNameValid, setIsNameValid] = useState(true);
     const [isEmailValid, setIsEmailValid] = useState(true);
-    const [loggedIn, setLoggedIn] = useState(false);
     const navigate = useNavigate();
 
 
@@ -41,7 +42,8 @@ function Register() {
             if (data.token) {
                 localStorage.setItem('token', data.token);
             }
-            setLoggedIn(true)
+            setCurrentUser(userRegistrData);
+            setLoggedIn(true);
             navigate("/movies", { replace: true });
         } catch (error) {
             console.log(error)
@@ -50,7 +52,7 @@ function Register() {
             } else {
                 setRegistrationError('При регистрации пользователя произошла ошибка');
             }
-        }
+        } finally {console.log(CurrentUserContext)}
     }, [navigate, userRegistrData])
 
     return (

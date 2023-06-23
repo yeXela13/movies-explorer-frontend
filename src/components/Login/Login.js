@@ -1,15 +1,15 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useContext } from 'react';
 import { isEmail } from 'validator';
 import { Link, useNavigate } from 'react-router-dom';
 import mainLogo from '../../images/mainLogo.svg';
 import { authorization } from '../../utils/auth';
+import { CurrentUserContext } from '../../context/CurrentUserContext';
 
-
-function Login({ }) {
+function Login() {
+    const { setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);
     const [userLoginData, setLoginData] = useState({ email: '', password: '' });
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [registrationError, setRegistrationError] = useState('');
-    const [loggedIn, setLoggedIn] = useState(false);
 
     const navigate = useNavigate();
 
@@ -22,36 +22,31 @@ function Login({ }) {
         if (isEmailValid === false) {
             setIsEmailValid(true);
         }
-        console.log(userLoginData)
     }, [userLoginData])
 
 
     const handleSubmit = useCallback(async (e) => {
-        console.log(userLoginData)
         try {
             e.preventDefault();
             const data = await authorization(userLoginData)
             if (data.token) {
                 localStorage.setItem('token', data.token);
             }
-            setLoggedIn(true)
+            setCurrentUser(userLoginData);
+            setLoggedIn(true);
             navigate("/movies", { replace: true });
         } catch (error) {
             console.log(error)
             if (error.response && error.response.status === 400) {
                 setRegistrationError('Вы ввели неправильный логин или пароль');
-            }  if ('token' === undefined) {
+            } if ('token' === undefined) {
                 setRegistrationError('При авторизации произошла обшибка. Токен не передан или передан не в том формате');
-            } 
+            }
             else {
                 setRegistrationError('При авторизации произошла ошибка, переданный токен не корректен');
             }
-        } finally {
-
         }
-    }, [navigate, userLoginData])
-
-
+    }, [setCurrentUser, navigate, userLoginData])
 
     return (
         <section className='register'>
@@ -81,11 +76,11 @@ function Login({ }) {
                                 placeholder='Введите пароль'
                                 required />
                         </label>
-                            {registrationError && <span className="register__error">{registrationError}</span>}
+                        {registrationError && <span className="register__error">{registrationError}</span>}
                     </fieldset>
                     <div className='register__box'>
 
-                    <button className={`register__button ${(!isEmailValid) ? 'register__button-disabled' : ''}`} type="submit" disabled={!isEmailValid}>Войти</button>
+                        <button className={`register__button ${(!isEmailValid) ? 'register__button-disabled' : ''}`} type="submit" disabled={!isEmailValid}>Войти</button>
                         <div className='register__link'>
                             <p className="register__text">Ещё не зарегистрированы?</p>
                             <Link className="register__login" to="/signup">Регистрация</Link>
