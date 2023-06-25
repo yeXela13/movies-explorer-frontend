@@ -9,12 +9,12 @@ import Portfolio from './Portfolio/Portfolio';
 import Header from '../Header/Header';
 
 
-function Main() {
+function Main({loggedIn}) {
 
     return (
 
         <div className='page'>
-            <Header />
+            <Header loggedIn={loggedIn} />
             <main>
                 <Promo />
                 <AboutProject />

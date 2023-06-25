@@ -18,12 +18,9 @@
     line-height: 16px;
     text-decoration: none;
     color: #fff;
+    cursor: pointer;
 }
 
-.navigation__registration:hover {
-    cursor: pointer;
-    opacity: 0.7;
-}
 
 .navigation__login {
     padding: 8px 20px;
@@ -34,11 +31,7 @@
     background-color: #3DDC84;
     border-radius: 3px;
     box-sizing: border-box;
-}
-
-.navigation__login:hover {
     cursor: pointer;
-    opacity: 0.7;
 }
 
 .navigation__links {
@@ -48,6 +41,7 @@
     text-decoration: none;
     margin-left: 20px;
     margin-right: 50px;
+    cursor: pointer;
 }
 
 .navigation__links:first-of-type {
@@ -58,10 +52,11 @@
     margin: 0; 
 }
 
-.navigation__links:hover {
-    cursor: pointer;
-    opacity: 0.7;
-}
+    .navigation__registration:hover,
+    .navigation__login:hover,
+    .navigation__links:hover  {
+        opacity: 0.7;
+    }
 
 .navigation__account {
     color: #fff;

@@ -56,7 +56,7 @@ function Profile() {
                 }
             }
         }
-    }, [name, email, isNameValid, isEmailValid, isChange]); // Добавлено isChange в зависимости массива
+    }, [name, email, isNameValid, isEmailValid, isChange]);
 
     const logout = useCallback(() => {
         localStorage.removeItem('token');

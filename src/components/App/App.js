@@ -34,6 +34,7 @@ function App() {
                     throw new Error('Токен не передан или передан не в том формате')
                 }
                 setLoggedIn(true)
+                setLoading(true)
                 navigate("/movies", { replace: true })
             } catch (e) {
                 console.error(e)
@@ -48,45 +49,45 @@ function App() {
         tokenCheck();
     }, []);
 
-    // if (loading) {
-    //     return Preloader;
-    // }
-
     return (
-        <CurrentUserContext.Provider value= { {currentUser, setCurrentUser, loggedIn, setLoggedIn, loading, setLoading} }>
-            <Routes>
-                <Route path="/" element={<Main />} />
+        <CurrentUserContext.Provider value={{ currentUser, setCurrentUser, loggedIn, setLoggedIn, loading, setLoading }}>
+            {loading ? (
+                <Preloader />
+            ) : (
+                <Routes>
+                    <Route path="/" loggedIn={loggedIn} element={<Main />} />
 
-                <Route path="/signin" loggedIn={loggedIn}
-                    element={
-                        <Login
+                    <Route path="/signin" loggedIn={loggedIn}
+                        element={
+                            <Login
+                            />} />
 
+                    <Route path="/signup" loggedIn={loggedIn}
+                        element={
+                            <Register
+                            />}
+                    />
+
+                    <Route path="/movies" element={
+                        <ProtectedRouteElement
+                            loggedIn={loggedIn}
+                            element={Movies}
                         />} />
-                <Route path="/signup" element={
-                    <Register
+                    <Route path="/saved-movies" element={
+                        <ProtectedRouteElement
+                            loggedIn={loggedIn}
+                            element={SavedMovies}
+                        />} />
+                    <Route path="/profile" element={
+                        <ProtectedRouteElement
+                            loggedIn={loggedIn}
 
-                    />}
-                />
+                            element={Profile}
+                        />} />
 
-                <Route path="/movies" element={
-                    <ProtectedRouteElement
-                        loggedIn={loggedIn}
-                        element={Movies}
-                    />} />
-                <Route path="/saved-movies" element={
-                    <ProtectedRouteElement
-                        loggedIn={loggedIn}
-                        element={SavedMovies}
-                    />} />
-                <Route path="/profile" element={
-                    <ProtectedRouteElement
-                        loggedIn={loggedIn}
-  
-                        element={Profile}
-                    />} />
-
-                <Route path="*" element={<NotFound />} />
-            </Routes>
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            )}
         </CurrentUserContext.Provider>
     );
 

@@ -52,7 +52,7 @@ function Register() {
             } else {
                 setRegistrationError('При регистрации пользователя произошла ошибка');
             }
-        } finally {console.log(CurrentUserContext)}
+        } finally { console.log(CurrentUserContext) }
     }, [navigate, userRegistrData])
 
     return (
