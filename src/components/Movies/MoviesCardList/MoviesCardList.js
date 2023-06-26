@@ -6,6 +6,8 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 
 function MoviesCardList() {
 
+  
+
   return (
     <section className="cards">
       <ul className="cards__container">

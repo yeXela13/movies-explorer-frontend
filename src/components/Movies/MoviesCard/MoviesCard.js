@@ -10,6 +10,8 @@ function MoviesCard() {
         setSave(!isSave);
     };
 
+
+    
     return (
         <li className="card">
             <div className="card__box">

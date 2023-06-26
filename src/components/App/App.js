@@ -17,6 +17,8 @@ import { CurrentUserContext } from '../../context/CurrentUserContext';
 
 function App() {
     const [currentUser, setCurrentUser] = useState({});
+    const [cardMovies, setCardMovies] = useState([]);
+
     const [loggedIn, setLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -50,7 +52,7 @@ function App() {
     }, []);
 
     return (
-        <CurrentUserContext.Provider value={{ currentUser, setCurrentUser, loggedIn, setLoggedIn, loading, setLoading }}>
+        <CurrentUserContext.Provider value={{ currentUser, setCurrentUser, loggedIn, setLoggedIn, loading, setLoading, cardMovies, setCardMovies }}>
             {loading ? (
                 <Preloader />
             ) : (
