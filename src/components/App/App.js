@@ -1,6 +1,6 @@
 import '../../index.css';
 import React, { useState, useEffect, useCallback } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import api from '../../utils/MainApi';
 import { getContent } from '../../utils/auth'
 import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute'
@@ -18,6 +18,8 @@ import { CurrentUserContext } from '../../context/CurrentUserContext';
 function App() {
     const [currentUser, setCurrentUser] = useState({});
     const [cardMovies, setCardMovies] = useState([]);
+    const [savedMovies, setSavedMovies] = useState([])
+    const [errors, setErrors] = useState('')
 
     const [loggedIn, setLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -48,11 +50,12 @@ function App() {
 
 
     useEffect(() => {
-        tokenCheck();
+        tokenCheck()
     }, []);
 
+
     return (
-        <CurrentUserContext.Provider value={{ currentUser, setCurrentUser, loggedIn, setLoggedIn, loading, setLoading, cardMovies, setCardMovies }}>
+        <CurrentUserContext.Provider value={{ currentUser, setCurrentUser, loggedIn, setLoggedIn, loading, setLoading, errors, setErrors, cardMovies, setCardMovies, savedMovies, setSavedMovies }}>
             {loading ? (
                 <Preloader />
             ) : (

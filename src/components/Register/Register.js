@@ -47,7 +47,7 @@ function Register() {
             navigate("/movies", { replace: true });
         } catch (error) {
             console.log(error)
-            if (error.response && error.response.status === 409) {
+            if (error === 'Ошибка: 409 Conflict') {
                 setRegistrationError('Пользователь с таким email уже существует');
             } else {
                 setRegistrationError('При регистрации пользователя произошла ошибка');

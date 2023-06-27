@@ -68,7 +68,7 @@ class Api {
     }
 
     deleteMovies = (id) => {
-        return this._request(`${this._baseUrl}/movies`, {
+        return this._request(`${this._baseUrl}/movies/${id}`, {
             method: 'DELETE',
             headers: this._checkHeaders(),
         })

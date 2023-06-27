@@ -30,6 +30,7 @@ function Profile() {
             });
     }, [])
 
+
     function handleNameChange(e) {
         const newName = e.target.value;
         setName(newName);
