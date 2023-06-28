@@ -20,7 +20,8 @@ function Profile() {
 
     useEffect(() => {
         api.getUserInfo()
-            .then(data => {
+        .then(data => {
+                setChange(false);
                 setCurrentUser(data);
                 setName(data.name)
                 setEmail(data.email)
