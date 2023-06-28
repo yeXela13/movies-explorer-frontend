@@ -34,6 +34,7 @@ function Login() {
             if (data.token) {
                 localStorage.setItem('token', data.token);
             }
+            setChange(false);
             setCurrentUser(userLoginData);
             setLoggedIn(true);
             navigate("/movies", { replace: true });

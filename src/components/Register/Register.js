@@ -40,6 +40,7 @@ function Register() {
             }
             e.preventDefault();
             const data = await registration(userRegistrData)
+            setChange(false);
             if (data.token) {
                 localStorage.setItem('token', data.token);
             }
