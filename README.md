@@ -4,6 +4,8 @@
 
 ## Адреса
 
+Ссылка на Pull requests:  https://github.com/yeXela13/movies-explorer-frontend/pull/3
+
 Ссылка на макет:  https://disk.yandex.ru/d/_etEC-ylmDHmhA
 
 ### Технологии
