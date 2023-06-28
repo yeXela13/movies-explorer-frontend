@@ -17,6 +17,7 @@ function Register() {
     const navigate = useNavigate();
 
     const handleChange = async (e) => {
+        setChange(true);
         const { name, value } = e.target;
         setRegistrData((prevData) => ({
             ...prevData,
@@ -30,15 +31,11 @@ function Register() {
             const isValidEmail = validator.isEmail(value);
             setIsEmailValid(isValidEmail);
         }
-       if (!isEmailValid || !isNameValid) {
-           setChange(true);
-       }
     };
 
     const handleSubmit = useCallback(async (e) => {
         try {
             if (!isEmailValid || !isNameValid) {
-                // setChange(true);
                 return;
             }
             e.preventDefault();
