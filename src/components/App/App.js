@@ -1,7 +1,6 @@
 import '../../index.css';
 import React, { useState, useEffect, useCallback } from 'react';
-import { Routes, Route, useNavigate, useSearchParams, useLocation } from 'react-router-dom';
-import api from '../../utils/MainApi';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { getContent } from '../../utils/auth'
 import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute'
 import Main from '../Main/Main'
@@ -20,7 +19,6 @@ function App() {
     const [cardMovies, setCardMovies] = useState([]);
     const [savedMovies, setSavedMovies] = useState([])
     const [errors, setErrors] = useState('')
-
     const [loggedIn, setLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -47,7 +45,6 @@ function App() {
             }
         }
     }, [navigate])
-
 
     useEffect(() => {
         tokenCheck()

@@ -13,7 +13,7 @@ function Profile() {
     const [email, setEmail] = useState(currentUser.email);
     const [isNameValid, setIsNameValid] = useState(true);
     const [isEmailValid, setIsEmailValid] = useState(true);
-    const [isChange, setChange] = useState(true);
+    const [isChange, setChange] = useState(false);
     const [registrationError, setRegistrationError] = useState('');
     const isFormValid = isNameValid && isEmailValid;
     const navigate = useNavigate();
@@ -24,7 +24,6 @@ function Profile() {
                 setCurrentUser(data);
                 setName(data.name)
                 setEmail(data.email)
-                setChange(true);
             }).catch(error => {
                 console.log(error)
             });
@@ -35,11 +34,13 @@ function Profile() {
         const newName = e.target.value;
         setName(newName);
         setIsNameValid(/^[a-zA-Zа-яА-Я\s-]+$/.test(newName));
+        setChange(true);
     }
     function handleEmailChange(e) {
         const newEmail = e.target.value;
         setEmail(newEmail);
         setIsEmailValid(validator.isEmail(newEmail));
+        setChange(true);
     }
 
     const handleSubmit = useCallback(async (e) => {
@@ -60,7 +61,7 @@ function Profile() {
     }, [name, email, isNameValid, isEmailValid, isChange]);
 
     const logout = useCallback(() => {
-        localStorage.removeItem('token');
+        localStorage.clear();
         setLoggedIn(false);
         navigate("/signin", { replace: true });
     }, [])
@@ -98,7 +99,7 @@ function Profile() {
                             {registrationError && <span className="register__error">{registrationError}</span>}
                         </fieldset>
                         <div className='profile__box'>
-                            <button className={`profile__button_edit_disabled ${isFormValid && isChange ? 'profile__button_edit' : ''}`} type='submit' disabled={!isFormValid}>Редактировать</button>
+                            <button className={`profile__button_edit_disabled ${isFormValid || isChange ? 'profile__button_edit' : ''}`} type='submit' disabled={!isFormValid || !isChange}>Редактировать</button>
                             <button className='profile__button_logout' onClick={logout} >Выйти из аккаунта</button>
                         </div>
                     </form>

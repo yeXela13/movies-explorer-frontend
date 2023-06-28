@@ -72,7 +72,7 @@ class Api {
             method: 'DELETE',
             headers: this._checkHeaders(),
         })
-            .then(response => response.json())
+            .then(response => response)
     }
 
 }

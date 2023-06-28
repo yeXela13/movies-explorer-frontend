@@ -9,6 +9,7 @@ function Login() {
     const { setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);
     const [userLoginData, setLoginData] = useState({ email: '', password: '' });
     const [isEmailValid, setIsEmailValid] = useState(true);
+    const [isChange, setChange] = useState(false);
     const [registrationError, setRegistrationError] = useState('');
 
     const navigate = useNavigate();
@@ -18,6 +19,7 @@ function Login() {
         setLoginData({ ...userLoginData, [name]: value })
         if (name === 'email') {
             setIsEmailValid(isEmail(value));
+            setChange(true);
         }
         if (isEmailValid === false) {
             setIsEmailValid(true);
@@ -80,7 +82,7 @@ function Login() {
                     </fieldset>
                     <div className='register__box'>
 
-                        <button className={`register__button ${(!isEmailValid) ? 'register__button-disabled' : ''}`} type="submit" disabled={!isEmailValid}>Войти</button>
+                        <button className={`register__button ${(!isEmailValid || !isChange) ? 'register__button-disabled' : ''}`} type="submit" disabled={!isEmailValid || !isChange}>Войти</button>
                         <div className='register__link'>
                             <p className="register__text">Ещё не зарегистрированы?</p>
                             <Link className="register__login" to="/signup">Регистрация</Link>

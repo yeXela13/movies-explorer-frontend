@@ -46,6 +46,12 @@
     transform: scale(1);
 }
 
+.cards__empty-data-root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media screen and (max-width: 812px) {
     .cards {
         padding: 70px 30px 80px;

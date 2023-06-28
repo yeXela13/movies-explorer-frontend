@@ -13,8 +13,8 @@ function Register() {
     const [registrationError, setRegistrationError] = useState('');
     const [isNameValid, setIsNameValid] = useState(true);
     const [isEmailValid, setIsEmailValid] = useState(true);
+    const [isChange, setChange] = useState(false);
     const navigate = useNavigate();
-
 
     const handleChange = async (e) => {
         const { name, value } = e.target;
@@ -30,11 +30,15 @@ function Register() {
             const isValidEmail = validator.isEmail(value);
             setIsEmailValid(isValidEmail);
         }
+       if (!isEmailValid || !isNameValid) {
+           setChange(true);
+       }
     };
 
     const handleSubmit = useCallback(async (e) => {
         try {
             if (!isEmailValid || !isNameValid) {
+                // setChange(true);
                 return;
             }
             e.preventDefault();
@@ -100,7 +104,7 @@ function Register() {
                     </fieldset>
                     {registrationError && <span className="register__error">{registrationError}</span>}
                     <div className='register__box'>
-                        <button className={`register__button ${(!isEmailValid || !isNameValid) ? 'register__button-disabled' : ''}`} type="submit" disabled={!isEmailValid || !isNameValid}>
+                        <button className={`register__button ${(!isEmailValid || !isNameValid || !isChange) ? 'register__button-disabled' : ''}`} type="submit" disabled={!isEmailValid || !isNameValid || !isChange}>
                             Зарегистрироваться
                         </button>
                         <div className='register__link'>
