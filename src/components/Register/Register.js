@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useContext } from 'react';
+import React, { useCallback, useState, useContext, useMemo } from 'react';
 import validator from 'validator';
 import { useNavigate } from 'react-router-dom';
 import './Register.css'
@@ -13,32 +13,39 @@ function Register() {
     const [registrationError, setRegistrationError] = useState('');
     const [isNameValid, setIsNameValid] = useState(true);
     const [isEmailValid, setIsEmailValid] = useState(true);
+    const [isValidPassword, setIsValidPassword] = useState(false)
     const [isChange, setChange] = useState(false);
+    const isDisabled =  !isNameValid || !isEmailValid || !isValidPassword || !isChange || !userRegistrData.name.length || !userRegistrData.email.length
     const navigate = useNavigate();
 
-    const handleChange = async (e) => {
+
+    const handleChange = async(e) => {
         setChange(true);
         const { name, value } = e.target;
         setRegistrData((prevData) => ({
             ...prevData,
             [name]: value,
-        }));
+        }))
         if (name === 'name') {
-            const isValidName = validator.matches(value, /^[a-zA-Zа-яА-Я\s-]+$/);
-            setIsNameValid(isValidName);
+             const isValidName = validator.matches(value, /^[a-zA-Zа-яА-Я\s-]+$/);
+             setIsNameValid(isValidName);
         }
         if (name === 'email') {
             const isValidEmail = validator.isEmail(value);
             setIsEmailValid(isValidEmail);
         }
+        if (name === 'password') {
+            const isValidPassword = value.length > 2
+            setIsValidPassword(isValidPassword)
+        }
     };
 
     const handleSubmit = useCallback(async (e) => {
+        e.preventDefault();
         try {
-            if (!isEmailValid || !isNameValid) {
+            if (isDisabled) {
                 return;
             }
-            e.preventDefault();
             const data = await registration(userRegistrData)
             setChange(false);
             if (data.token) {
@@ -54,8 +61,7 @@ function Register() {
             } else {
                 setRegistrationError('При регистрации пользователя произошла ошибка');
             }
-        } finally { console.log(CurrentUserContext) }
-    }, [navigate, userRegistrData])
+        }}, [navigate, userRegistrData])
 
     return (
         <section className='register'>
@@ -76,7 +82,7 @@ function Register() {
                                 maxLength={30}
 
                             />
-                            {!isNameValid && <span className="register__error">Некорректное имя</span>}
+                            {!isNameValid  && <span className="register__error">Некорректное имя</span>}
                         </label>
                         <label className='register__fields'>
                             <p className='register__inputs'>E-mail</p>
@@ -87,7 +93,7 @@ function Register() {
                                 name='email'
                                 placeholder='Введите E-mail'
                             />
-                            {!isEmailValid && <span className="register__error">Некорректный E-mail</span>}
+                            {!isEmailValid  && <span className="register__error">Некорректный E-mail</span>}
                         </label>
                         <label className='register__fields'>
                             <p className='register__inputs'>Пароль</p>
@@ -102,7 +108,7 @@ function Register() {
                     </fieldset>
                     {registrationError && <span className="register__error">{registrationError}</span>}
                     <div className='register__box'>
-                        <button className={`register__button ${(!isEmailValid || !isNameValid || !isChange) ? 'register__button-disabled' : ''}`} type="submit" disabled={!isEmailValid || !isNameValid || !isChange}>
+                        <button className={`register__button ${isDisabled ? 'register__button-disabled' : ''}`} type="submit" disabled={isDisabled}>
                             Зарегистрироваться
                         </button>
                         <div className='register__link'>

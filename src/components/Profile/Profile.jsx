@@ -15,16 +15,13 @@ function Profile() {
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isChange, setChange] = useState(false);
     const [registrationError, setRegistrationError] = useState('');
-    const isFormValid = isNameValid && isEmailValid;
+    const isDisabled = !isNameValid || !isEmailValid || !isChange
     const navigate = useNavigate();
 
     useEffect(() => {
         api.getUserInfo()
-        .then(data => {
-                setChange(false);
+            .then(data => {
                 setCurrentUser(data);
-                setName(data.name)
-                setEmail(data.email)
             }).catch(error => {
                 console.log(error)
             });
@@ -32,16 +29,16 @@ function Profile() {
 
 
     function handleNameChange(e) {
+        setChange(true);
         const newName = e.target.value;
         setName(newName);
         setIsNameValid(/^[a-zA-Zа-яА-Я\s-]+$/.test(newName));
-        setChange(true);
     }
     function handleEmailChange(e) {
+        setChange(true);
         const newEmail = e.target.value;
         setEmail(newEmail);
         setIsEmailValid(validator.isEmail(newEmail));
-        setChange(true);
     }
 
     const handleSubmit = useCallback(async (e) => {
@@ -49,8 +46,8 @@ function Profile() {
         if (isNameValid && isEmailValid) {
             try {
                 await api.setUserInfo(name, email);
-                setChange(false);
                 setCurrentUser({ name, email })
+
             } catch (error) {
                 if (error.response && error.response.status === 409) {
                     setRegistrationError('Пользователь с таким email уже существует');
@@ -58,6 +55,7 @@ function Profile() {
                     setRegistrationError('При обновления профиля произошла ошибка');
                 }
             }
+            finally { setChange(false) }
         }
     }, [name, email, isNameValid, isEmailValid, isChange]);
 
@@ -100,7 +98,7 @@ function Profile() {
                             {registrationError && <span className="register__error">{registrationError}</span>}
                         </fieldset>
                         <div className='profile__box'>
-                            <button className={`profile__button_edit_disabled ${isFormValid || isChange ? 'profile__button_edit' : ''}`} type='submit' disabled={!isFormValid || !isChange}>Редактировать</button>
+                            <button className={`profile__button_edit_disabled ${isDisabled ? 'profile__button_edit' : ''}`} type='submit' disabled={isDisabled}>Редактировать</button>
                             <button className='profile__button_logout' onClick={logout} >Выйти из аккаунта</button>
                         </div>
                     </form>

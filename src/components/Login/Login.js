@@ -9,32 +9,34 @@ function Login() {
     const { setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);
     const [userLoginData, setLoginData] = useState({ email: '', password: '' });
     const [isEmailValid, setIsEmailValid] = useState(true);
+    const [isValidPassword, setIsValidPassword] = useState(false)
     const [isChange, setChange] = useState(false);
     const [registrationError, setRegistrationError] = useState('');
-
+    const isDisabled = !isEmailValid || !isValidPassword || !isChange || !userLoginData.email.length
     const navigate = useNavigate();
 
     const handleChange = useCallback((e) => {
+        setChange(true);
         const { name, value } = e.target;
         setLoginData({ ...userLoginData, [name]: value })
         if (name === 'email') {
-            setIsEmailValid(isEmail(value));
-            setChange(true);
+            const isValidEmail = isEmail(value);
+            setIsEmailValid(isValidEmail);
         }
-        if (isEmailValid === false) {
-            setIsEmailValid(true);
+        if (name === 'password') {
+            const isValidPassword = value.length > 2
+            setIsValidPassword(isValidPassword)
         }
     }, [userLoginData])
-
 
     const handleSubmit = useCallback(async (e) => {
         try {
             e.preventDefault();
             const data = await authorization(userLoginData)
+            setChange(false);
             if (data.token) {
                 localStorage.setItem('token', data.token);
             }
-            setChange(false);
             setCurrentUser(userLoginData);
             setLoggedIn(true);
             navigate("/movies", { replace: true });
@@ -83,7 +85,7 @@ function Login() {
                     </fieldset>
                     <div className='register__box'>
 
-                        <button className={`register__button ${(!isEmailValid || !isChange) ? 'register__button-disabled' : ''}`} type="submit" disabled={!isEmailValid || !isChange}>Войти</button>
+                        <button className={`register__button ${isDisabled ? 'register__button-disabled' : ''}`} type="submit" disabled={isDisabled}>Войти</button>
                         <div className='register__link'>
                             <p className="register__text">Ещё не зарегистрированы?</p>
                             <Link className="register__login" to="/signup">Регистрация</Link>
