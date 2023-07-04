@@ -9,9 +9,10 @@ import { CurrentUserContext } from "../../context/CurrentUserContext";
 import api from "../../utils/MainApi";
 
 function Movies() {
-  const { setCurrentUser, savedMovies, setSavedMovies } =
+  const { loading, setLoading, setCurrentUser, savedMovies, setSavedMovies } =
     useContext(CurrentUserContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchPerformed, setSearchPerformed] = useState(false);
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem("movies")) ?? []
   );
@@ -25,18 +26,26 @@ function Movies() {
   };
 
   const [search, setSearch] = useState(localStorage.getItem("search") ?? "");
+  const [searchError, setSearchError] = useState("");
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
+    setSearchError("");
     localStorage.setItem("search", e.target.value);
   };
+
   const submitSearchFunc = () => {
-    if (!search) return;
+    if (!search.trim()) {
+      setSearchError("Нужно ввести ключевое слово");
+      return;
+    }
     setIsLoading(true);
+    setSearchPerformed(true);
     findMovies()
       .then((e) => {
         let movies = e.filter(
           (movie) =>
-            movie.nameRU.includes(search) || movie.nameEN.includes(search)
+            movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
+            movie.nameEN.toLowerCase().includes(search.toLowerCase())
         );
         setData(movies);
         localStorage.setItem("movies", JSON.stringify(movies));
@@ -52,14 +61,15 @@ function Movies() {
 
   useEffect(() => {
     api
-    .getMovies()
-    .then((e) => setSavedMovies(e))
-    .catch((err) => console.log("getMovies api error =", err));
+      .getMovies()
+      .then((e) => setSavedMovies(e))
+      .catch((err) => console.log("getMovies api error =", err));
 
     api
       .getUserInfo()
-      .then((e) => { 
-        setCurrentUser(e)})
+      .then((e) => {
+        setCurrentUser(e)
+      })
       .catch((err) => console.log("getUserInfo api error = ", err));
     let movies = JSON.parse(localStorage.getItem("movies"));
     if (movies) setData(movies);
@@ -75,11 +85,13 @@ function Movies() {
           search={search}
           handleSearchChange={handleSearchChange}
           submitSearchFunc={submitSearchFunc}
+          searchError={searchError}
         />
         <MoviesCardList
           data={getMovies()}
           isLoading={isLoading}
           error={error}
+          searchPerformed={searchPerformed}
         />
       </main>
       <Footer />

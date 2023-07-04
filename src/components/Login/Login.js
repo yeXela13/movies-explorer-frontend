@@ -4,9 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import mainLogo from '../../images/mainLogo.svg';
 import { authorization } from '../../utils/auth';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
+import Preloader from '../Movies/Preloader/Preloader';
 
 function Login() {
-    const { setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);
+    const { loading, setLoading, setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);
     const [userLoginData, setLoginData] = useState({ email: '', password: '' });
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isValidPassword, setIsValidPassword] = useState(false)
@@ -30,9 +31,11 @@ function Login() {
     }, [userLoginData])
 
     const handleSubmit = useCallback(async (e) => {
+        e.preventDefault();
         try {
-            e.preventDefault();
+            setLoading(true);
             const data = await authorization(userLoginData)
+
             setChange(false);
             if (data.token) {
                 localStorage.setItem('token', data.token);
@@ -50,6 +53,8 @@ function Login() {
             else {
                 setRegistrationError('При авторизации произошла ошибка, переданный токен не корректен');
             }
+        } finally {
+            setLoading(false);
         }
     }, [setCurrentUser, navigate, userLoginData])
 
@@ -85,7 +90,7 @@ function Login() {
                     </fieldset>
                     <div className='register__box'>
 
-                        <button className={`register__button ${isDisabled ? 'register__button-disabled' : ''}`} type="submit" disabled={isDisabled}>Войти</button>
+                        <button className={`register__button ${isDisabled ? 'register__button-disabled' : ''}`} type="submit" disabled={isDisabled || loading}>Войти</button>
                         <div className='register__link'>
                             <p className="register__text">Ещё не зарегистрированы?</p>
                             <Link className="register__login" to="/signup">Регистрация</Link>

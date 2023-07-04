@@ -1,7 +1,6 @@
 .page {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     font-family: 'Inter', Arial, sans-serif;
     max-width: 100%;
     min-height: 100%;

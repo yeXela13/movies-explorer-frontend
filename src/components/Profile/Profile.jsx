@@ -8,14 +8,15 @@ import api from '../../utils/MainApi'
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 
 function Profile() {
-    const { currentUser, setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);
+    const { loading, setLoading, currentUser, setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);
     const [name, setName] = useState(currentUser.name);
     const [email, setEmail] = useState(currentUser.email);
     const [isNameValid, setIsNameValid] = useState(true);
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isChange, setChange] = useState(false);
     const [registrationError, setRegistrationError] = useState('');
-    const isDisabled = !isNameValid || !isEmailValid || !isChange
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const isDisabled = !isNameValid || !isEmailValid || !isChange;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,47 +24,73 @@ function Profile() {
             .then(data => {
                 setCurrentUser(data);
             }).catch(error => {
-                console.log(error)
+                console.log(error);
             });
-    }, [])
+    }, []);
 
 
     function handleNameChange(e) {
-        setChange(true);
         const newName = e.target.value;
         setName(newName);
         setIsNameValid(/^[a-zA-Zа-яА-Я\s-]+$/.test(newName));
     }
+
     function handleEmailChange(e) {
-        setChange(true);
         const newEmail = e.target.value;
         setEmail(newEmail);
         setIsEmailValid(validator.isEmail(newEmail));
     }
 
+    useEffect(() => {
+        if ((currentUser.name !== name || currentUser.email !== email)) {
+            setChange(true);
+        } else {
+            setChange(false);
+        }
+    }, [currentUser, email, name])
+
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
         if (isNameValid && isEmailValid) {
+            setLoading(true);
             try {
                 await api.setUserInfo(name, email);
-                setCurrentUser({ name, email })
-
+                setCurrentUser({ name, email });
+                setShowSuccessMessage(true);
             } catch (error) {
                 if (error.response && error.response.status === 409) {
                     setRegistrationError('Пользователь с таким email уже существует');
                 } else {
                     setRegistrationError('При обновления профиля произошла ошибка');
                 }
+            } finally {
+                setChange(false);
+                setLoading(false);
             }
-            finally { setChange(false) }
         }
     }, [name, email, isNameValid, isEmailValid, isChange]);
 
     const logout = useCallback(() => {
-        localStorage.clear();
-        setLoggedIn(false);
-        navigate("/signin", { replace: true });
-    }, [])
+        setLoading(true);
+      
+        setTimeout(() => {
+          localStorage.clear();
+          setLoggedIn(false);
+          navigate("/", { replace: true });
+          setLoading(false);
+        }, 500);
+      }, []);
+      
+
+    useEffect(() => {
+        if (showSuccessMessage) {
+            const timeout = setTimeout(() => {
+                setShowSuccessMessage(false);
+            }, 10000);
+
+            return () => clearTimeout(timeout);
+        }
+    }, [showSuccessMessage]);
 
     return (
         <>
@@ -75,7 +102,8 @@ function Profile() {
                         <fieldset className='profile__fieldset'>
                             <label className='profile__fields'>
                                 <p className='profile__input-name'>Имя</p>
-                                <input className='profile__input'
+                                <input
+                                    className='profile__input'
                                     value={name || ""}
                                     onChange={handleNameChange}
                                     type='text'
@@ -86,7 +114,8 @@ function Profile() {
                             {!isNameValid && <span className='profile__error'>Некорректное имя</span>}
                             <label className='profile__fields'>
                                 <p className='profile__input-email'>E-mail</p>
-                                <input className='profile__input'
+                                <input
+                                    className='profile__input'
                                     value={email || ""}
                                     onChange={handleEmailChange}
                                     type='email'
@@ -96,10 +125,11 @@ function Profile() {
                             </label>
                             {!isEmailValid && <span className='profile__error'>Введите корректный e-mail</span>}
                             {registrationError && <span className="register__error">{registrationError}</span>}
+                            {showSuccessMessage && <span className="profile__success">Профиль успешно сохранен!</span>}
                         </fieldset>
                         <div className='profile__box'>
-                            <button className={`profile__button_edit_disabled ${isDisabled ? 'profile__button_edit' : ''}`} type='submit' disabled={isDisabled}>Редактировать</button>
-                            <button className='profile__button_logout' onClick={logout} >Выйти из аккаунта</button>
+                            <button className={`profile__button_edit_disabled ${isDisabled ? 'profile__button_edit' : ''}`} type='submit' disabled={isDisabled || loading}>Редактировать</button>
+                            <button className='profile__button_logout' onClick={logout}>Выйти из аккаунта</button>
                         </div>
                     </form>
                 </div>
@@ -107,5 +137,6 @@ function Profile() {
         </>
     );
 }
+
 
 export default Profile;

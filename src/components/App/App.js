@@ -37,7 +37,6 @@ function App() {
                 }
                 setLoggedIn(true)
                 setLoading(true)
-                navigate("/movies", { replace: true })
             } catch (e) {
                 console.error(e)
             } finally {
@@ -53,18 +52,18 @@ function App() {
 
     return (
         <CurrentUserContext.Provider value={{ currentUser, setCurrentUser, loggedIn, setLoggedIn, loading, setLoading, errors, setErrors, cardMovies, setCardMovies, savedMovies, setSavedMovies }}>
-            {loading ? (
+            {/* {loading ? (
                 <Preloader />
-            ) : (
+            ) : ( */}
                 <Routes>
-                    <Route path="/" loggedIn={loggedIn} element={<Main />} />
+                    <Route path="/" element={<Main />} />
 
-                    <Route path="/signin" loggedIn={loggedIn}
+                    <Route path="/signin" 
                         element={
                             <Login
                             />} />
 
-                    <Route path="/signup" loggedIn={loggedIn}
+                    <Route path="/signup" 
                         element={
                             <Register
                             />}
@@ -88,8 +87,9 @@ function App() {
                         />} />
 
                     <Route path="*" element={<NotFound />} />
+
                 </Routes>
-            )}
+            {/* )} */}
         </CurrentUserContext.Provider>
     );
 

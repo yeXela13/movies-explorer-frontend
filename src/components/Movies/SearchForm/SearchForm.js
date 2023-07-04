@@ -8,6 +8,8 @@ function SearchForm({
   search,
   handleSearchChange,
   submitSearchFunc,
+  searchError,
+
 }) {
   return (
     <section className="search">
@@ -23,7 +25,6 @@ function SearchForm({
             name="search"
             type="text"
             placeholder="Фильм"
-            required
             value={search}
             onChange={handleSearchChange}
           />
@@ -45,6 +46,7 @@ function SearchForm({
           <p className="search__text">Короткометражки</p>
         </label>
       </form>
+      {searchError && !search && <span className="search__span">{searchError}</span>}
       <div className="search__line"></div>
     </section>
   );

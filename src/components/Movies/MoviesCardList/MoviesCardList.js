@@ -13,7 +13,7 @@ const getInitialCardLimit = () => {
   return 12;
 };
 
-function MoviesCardList({ data, isLoading, error }) {
+function MoviesCardList({ data, searchPerformed, isLoading, error }) {
   const initialLimit = getInitialCardLimit();
   const [limit, setLimit] = useState(getInitialCardLimit);
   const location = useLocation();
@@ -35,20 +35,24 @@ function MoviesCardList({ data, isLoading, error }) {
       setLimit((prev) => prev + 2);
     }
   };
-  if (!data.length) {
+
+  if (isLoading) return <Preloader />;
+  if (error) return <p>{error}</p>;
+  if (searchPerformed && !data.length) {
     return (
       <div className="cards__empty-data-root">
         <p>Фильмы не найдены</p>
-      </div>)
+      </div>
+    );
   }
-  if (isLoading) return <Preloader />;
-  if (error) return <p>{error}</p>;
+
+
   return (
     <section className="cards">
       <ul className="cards__container">
         {isLikedMoviesPage ? data.map(el => {
           return (
-          <MoviesCard movie={el} key={el.nameRU + '-saved'} />
+            <MoviesCard movie={el} key={el.nameRU + '-saved'} />
           )
         }) : data.slice(0, limit).map(el => {
           return (
@@ -56,7 +60,7 @@ function MoviesCardList({ data, isLoading, error }) {
           )
         })
         }
-        
+
       </ul>
       {!isLikedMoviesPage && limit < data.length && (
         <button

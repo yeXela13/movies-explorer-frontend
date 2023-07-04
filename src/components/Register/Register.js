@@ -6,9 +6,10 @@ import { Link } from 'react-router-dom';
 import mainLogo from '../../images/mainLogo.svg';
 import { registration } from '../../utils/auth';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
+import Preloader from '../Movies/Preloader/Preloader';
 
 function Register() {
-    const { setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);
+    const {loading, setLoading, setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);
     const [userRegistrData, setRegistrData] = useState({ name: '', email: '', password: '' });
     const [registrationError, setRegistrationError] = useState('');
     const [isNameValid, setIsNameValid] = useState(true);
@@ -43,6 +44,7 @@ function Register() {
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
         try {
+            setLoading(true);
             if (isDisabled) {
                 return;
             }
@@ -60,7 +62,9 @@ function Register() {
                 setRegistrationError('Пользователь с таким email уже существует');
             } else {
                 setRegistrationError('При регистрации пользователя произошла ошибка');
-            }
+            } 
+        } finally {
+            setLoading(false);
         }}, [navigate, userRegistrData])
 
     return (

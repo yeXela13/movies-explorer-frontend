@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 function NotFound() {
 
+  console.log('ggg')
+
   return (
     <section className="not-found">
       <div className="not-found__container">
