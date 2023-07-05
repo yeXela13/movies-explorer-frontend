@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import mainLogo from '../../images/mainLogo.svg';
 import { authorization } from '../../utils/auth';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
-import Preloader from '../Movies/Preloader/Preloader';
 
 function Login() {
     const { loading, setLoading, setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);

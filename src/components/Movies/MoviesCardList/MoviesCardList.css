@@ -52,7 +52,7 @@
     align-items: center;
 }
 
-@media screen and (max-width: 812px) {
+@media screen and (max-width: 888px) {
     .cards {
         padding: 70px 30px 80px;
 
@@ -73,5 +73,9 @@
     .cards__container {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         row-gap: 16px;
+    }
+
+    .cards__more-button {
+        width: 240px;
     }
 }

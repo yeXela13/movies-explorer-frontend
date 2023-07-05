@@ -6,7 +6,6 @@ import api from "../../../utils/MainApi";
 
 function MoviesCard({ movie }) {
   const location = useLocation();
-
   const handleSaveToggle = (movie) => {
     if (!isSave(movie)) {
       api.createMovies({ ...movie, _id: currentUser._id }).then(e => setSavedMovies(prev => [...prev, e]))
@@ -22,8 +21,7 @@ function MoviesCard({ movie }) {
     return false;
   };
 
-  const { currentUser, savedMovies, setSavedMovies } =
-    useContext(CurrentUserContext);
+  const { currentUser, savedMovies, setSavedMovies } = useContext(CurrentUserContext);
 
   const isLikedMoviesPage = location.pathname === "/saved-movies";
 

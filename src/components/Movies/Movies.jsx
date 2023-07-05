@@ -9,10 +9,14 @@ import { CurrentUserContext } from "../../context/CurrentUserContext";
 import api from "../../utils/MainApi";
 
 function Movies() {
-  const { loading, setLoading, setCurrentUser, savedMovies, setSavedMovies } =
+  const { setCurrentUser, savedMovies, setSavedMovies } =
     useContext(CurrentUserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
+
+  const [searchResults, setSearchResults] = useState(
+    JSON.parse(localStorage.getItem("movies")) ?? []
+  );
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem("movies")) ?? []
   );
@@ -38,21 +42,33 @@ function Movies() {
       setSearchError("Нужно ввести ключевое слово");
       return;
     }
-    setIsLoading(true);
-    setSearchPerformed(true);
-    findMovies()
-      .then((e) => {
-        let movies = e.filter(
-          (movie) =>
-            movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
-            movie.nameEN.toLowerCase().includes(search.toLowerCase())
-        );
-        setData(movies);
-        localStorage.setItem("movies", JSON.stringify(movies));
-      })
-      .catch((e) => setError(e))
-      .finally(() => setIsLoading(false));
+    if (searchResults.length > 0) {
+      const movies = searchResults.filter(
+        (movie) =>
+          movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
+          movie.nameEN.toLowerCase().includes(search.toLowerCase())
+      );
+      setData(movies);
+      localStorage.setItem("movies", JSON.stringify(movies));
+    } else {
+      setIsLoading(true);
+      setSearchPerformed(true);
+      findMovies()
+        .then((e) => {
+          let movies = e.filter(
+            (movie) =>
+              movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
+              movie.nameEN.toLowerCase().includes(search.toLowerCase())
+          );
+          setData(movies);
+          setSearchResults(movies);
+          localStorage.setItem("movies", JSON.stringify(movies));
+        })
+        .catch((e) => setError(e))
+        .finally(() => setIsLoading(false));
+    }
   };
+
 
   const getMovies = () => {
     if (isShortMovie) return data.filter((movie) => movie.duration <= 40);

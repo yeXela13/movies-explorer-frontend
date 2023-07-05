@@ -2,16 +2,8 @@ import '../../index.css';
 import React, { useState, useEffect, useCallback } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { getContent } from '../../utils/auth'
-import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute'
-import Main from '../Main/Main'
-import NotFound from '../NotFound/NotFound';
-import Profile from '../Profile/Profile';
-import Register from '../Register/Register';
-import Login from '../Login/Login';
-import Movies from '../Movies/Movies';
-import SavedMovies from '../SavedMovies/SavedMovies';
-import Preloader from '../Movies/Preloader/Preloader';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
+import { AUTHTORIZED_ROUTES, UNAUTHTORIZED_ROUTES } from '../../routes/routes';
 
 
 function App() {
@@ -52,44 +44,19 @@ function App() {
 
     return (
         <CurrentUserContext.Provider value={{ currentUser, setCurrentUser, loggedIn, setLoggedIn, loading, setLoading, errors, setErrors, cardMovies, setCardMovies, savedMovies, setSavedMovies }}>
-            {/* {loading ? (
-                <Preloader />
-            ) : ( */}
-                <Routes>
-                    <Route path="/" element={<Main />} />
-
-                    <Route path="/signin" 
-                        element={
-                            <Login
-                            />} />
-
-                    <Route path="/signup" 
-                        element={
-                            <Register
-                            />}
-                    />
-
-                    <Route path="/movies" element={
-                        <ProtectedRouteElement
-                            loggedIn={loggedIn}
-                            element={Movies}
-                        />} />
-                    <Route path="/saved-movies" element={
-                        <ProtectedRouteElement
-                            loggedIn={loggedIn}
-                            element={SavedMovies}
-                        />} />
-                    <Route path="/profile" element={
-                        <ProtectedRouteElement
-                            loggedIn={loggedIn}
-
-                            element={Profile}
-                        />} />
-
-                    <Route path="*" element={<NotFound />} />
-
-                </Routes>
-            {/* )} */}
+                {loggedIn? (
+                    <Routes>
+                        {AUTHTORIZED_ROUTES.map(route => (
+                            <Route path={route.path} element={route.element} key={route.element}/>
+                        ))}
+                    </Routes>
+                ) : (
+                    <Routes>
+                        {UNAUTHTORIZED_ROUTES.map(route => (
+                            <Route path={route.path} element={route.element} key={route.element}/>
+                        ))}
+                    </Routes>
+                )}
         </CurrentUserContext.Provider>
     );
 

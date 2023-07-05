@@ -72,15 +72,14 @@ function Profile() {
 
     const logout = useCallback(() => {
         setLoading(true);
-      
         setTimeout(() => {
-          localStorage.clear();
-          setLoggedIn(false);
-          navigate("/", { replace: true });
-          setLoading(false);
+            localStorage.clear();
+            setLoggedIn(false);
+            navigate("/", { replace: true });
+            setLoading(false);
         }, 500);
-      }, []);
-      
+    }, []);
+
 
     useEffect(() => {
         if (showSuccessMessage) {
