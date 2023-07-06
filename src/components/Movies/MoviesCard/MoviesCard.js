@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { memo, useContext } from "react";
 import "./MoviesCard.css";
 import { useLocation } from "react-router-dom";
 import { CurrentUserContext } from "../../../context/CurrentUserContext";
@@ -26,7 +26,7 @@ function MoviesCard({ movie }) {
   const isLikedMoviesPage = location.pathname === "/saved-movies";
 
   return (
-    <li className="card" key={location.pathname.split('/')[1] + '-' + movie.id}>
+    <li className="card" key={`${location.pathname.split('/')[1]}-${movie.id}`}>
       <div className="card__box">
         <h2 className="card__title">{movie.nameRU}</h2>
         <p className="card__duration">
@@ -73,4 +73,4 @@ function MoviesCard({ movie }) {
   );
 }
 
-export default MoviesCard;
+export default memo(MoviesCard);

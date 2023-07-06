@@ -4,14 +4,6 @@ import Preloader from "../Preloader/Preloader";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { useLocation } from "react-router-dom";
 
-// const getInitialCardLimit = () => {
-//   let windowWidth = window.screen.width;
-//   if (windowWidth <= 1280 && windowWidth > 768) return 12;
-//   if (windowWidth <= 768 && windowWidth > 480) return 8;
-//   if (windowWidth <= 480) return 5;
-//   return 12;
-// };
-
 function MoviesCardList({ data, searchPerformed, isLoading, error }) {
   const [limit, setLimit] = useState(getInitialCardLimit);
   const location = useLocation();

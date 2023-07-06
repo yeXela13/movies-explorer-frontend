@@ -13,7 +13,6 @@ function Movies() {
     useContext(CurrentUserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
-
   const [searchResults, setSearchResults] = useState(
     JSON.parse(localStorage.getItem("movies")) ?? []
   );
@@ -24,13 +23,13 @@ function Movies() {
   const [isShortMovie, setIsShortMovie] = useState(
     JSON.parse(localStorage.getItem("isShortMovie")) ?? false
   );
+  const [search, setSearch] = useState(localStorage.getItem("search") ?? "");
+  const [searchError, setSearchError] = useState("");
+
   const handleShortMovieChange = (checked) => {
     setIsShortMovie(checked);
     JSON.stringify(localStorage.setItem("isShortMovie", checked));
   };
-
-  const [search, setSearch] = useState(localStorage.getItem("search") ?? "");
-  const [searchError, setSearchError] = useState("");
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
     setSearchError("");
