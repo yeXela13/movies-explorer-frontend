@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import './Header.css'
-import { Link, Routes, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import mainLogo from '../../images/mainLogo.svg';
 import Navigation from '../Navigation/Navigation';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';

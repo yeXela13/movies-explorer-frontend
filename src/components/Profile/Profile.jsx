@@ -16,8 +16,10 @@ function Profile() {
     const [isChange, setChange] = useState(false);
     const [registrationError, setRegistrationError] = useState('');
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-    const isDisabled = !isNameValid || !isEmailValid || !isChange;
+    const isDisabled = !isNameValid || !isEmailValid || !isChange || (currentUser.name === name && currentUser.email === email)
     const navigate = useNavigate();
+
+    const profileEditBtnClasses = `profile__button_edit ${isDisabled && 'profile__button_edit_disabled'}`
 
     useEffect(() => {
         api.getUserInfo()
@@ -27,7 +29,6 @@ function Profile() {
                 console.log(error);
             });
     }, []);
-
 
     function handleNameChange(e) {
         const newName = e.target.value;
@@ -52,13 +53,13 @@ function Profile() {
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
         if (isNameValid && isEmailValid) {
-            setLoading(true);
             try {
                 await api.setUserInfo(name, email);
                 setCurrentUser({ name, email });
                 setShowSuccessMessage(true);
+                setLoading(true);
             } catch (error) {
-                if (error.response && error.response.status === 409) {
+                if (error === 'Ошибка: 409 Conflict') {
                     setRegistrationError('Пользователь с таким email уже существует');
                 } else {
                     setRegistrationError('При обновления профиля произошла ошибка');
@@ -127,7 +128,7 @@ function Profile() {
                             {showSuccessMessage && <span className="profile__success">Профиль успешно сохранен!</span>}
                         </fieldset>
                         <div className='profile__box'>
-                            <button className={`profile__button_edit_disabled ${isDisabled ? 'profile__button_edit' : ''}`} type='submit' disabled={isDisabled || loading}>Редактировать</button>
+                            <button className={profileEditBtnClasses} type='submit' disabled={isDisabled || loading}>Редактировать</button>
                             <button className='profile__button_logout' onClick={logout}>Выйти из аккаунта</button>
                         </div>
                     </form>

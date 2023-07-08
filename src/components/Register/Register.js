@@ -4,23 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import './Register.css'
 import { Link } from 'react-router-dom';
 import mainLogo from '../../images/mainLogo.svg';
-import { registration } from '../../utils/auth';
+import { registration, authorization } from '../../utils/auth';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 import Preloader from '../Movies/Preloader/Preloader';
 
 function Register() {
-    const {loading, setLoading, setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);
+    const { loading, setLoading, setCurrentUser, setLoggedIn } = useContext(CurrentUserContext);
     const [userRegistrData, setRegistrData] = useState({ name: '', email: '', password: '' });
     const [registrationError, setRegistrationError] = useState('');
     const [isNameValid, setIsNameValid] = useState(true);
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isValidPassword, setIsValidPassword] = useState(false)
     const [isChange, setChange] = useState(false);
-    const isDisabled =  !isNameValid || !isEmailValid || !isValidPassword || !isChange || !userRegistrData.name.length || !userRegistrData.email.length
+    const isDisabled = !isNameValid || !isEmailValid || !isValidPassword || !isChange || !userRegistrData.name.length || !userRegistrData.email.length
     const navigate = useNavigate();
 
 
-    const handleChange = async(e) => {
+    const handleChange = async (e) => {
         setChange(true);
         const { name, value } = e.target;
         setRegistrData((prevData) => ({
@@ -28,8 +28,8 @@ function Register() {
             [name]: value,
         }))
         if (name === 'name') {
-             const isValidName = validator.matches(value, /^[a-zA-Zа-яА-Я\s-]+$/);
-             setIsNameValid(isValidName);
+            const isValidName = validator.matches(value, /^[a-zA-Zа-яА-Я\s-]+$/);
+            setIsNameValid(isValidName);
         }
         if (name === 'email') {
             const isValidEmail = validator.isEmail(value);
@@ -44,28 +44,28 @@ function Register() {
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
         try {
-            setLoading(true);
             if (isDisabled) {
                 return;
             }
-            const data = await registration(userRegistrData)
-            setChange(false);
-            if (data.token) {
-                localStorage.setItem('token', data.token);
+            const registrationData = await registration(userRegistrData);
+            if (registrationData.token) {
+                console.log('привет')
+                localStorage.setItem('token', registrationData.token);
             }
+            // console.log(userRegistrData)
+            const data = await authorization(userRegistrData)
+            localStorage.setItem('token', data.token);
             setCurrentUser(userRegistrData);
             setLoggedIn(true);
-            navigate("/movies", { replace: true });
+            navigate('/movies', { replace: true });
         } catch (error) {
-            console.log(error)
             if (error === 'Ошибка: 409 Conflict') {
                 setRegistrationError('Пользователь с таким email уже существует');
             } else {
                 setRegistrationError('При регистрации пользователя произошла ошибка');
-            } 
-        } finally {
-            setLoading(false);
-        }}, [navigate, userRegistrData])
+            }
+        }
+    }, [navigate, userRegistrData, setCurrentUser, setLoggedIn, isDisabled]);
 
     return (
         <section className='register'>
@@ -86,7 +86,7 @@ function Register() {
                                 maxLength={30}
 
                             />
-                            {!isNameValid  && <span className="register__error">Некорректное имя</span>}
+                            {!isNameValid && <span className="register__error">Некорректное имя</span>}
                         </label>
                         <label className='register__fields'>
                             <p className='register__inputs'>E-mail</p>
@@ -97,7 +97,7 @@ function Register() {
                                 name='email'
                                 placeholder='Введите E-mail'
                             />
-                            {!isEmailValid  && <span className="register__error">Некорректный E-mail</span>}
+                            {!isEmailValid && <span className="register__error">Некорректный E-mail</span>}
                         </label>
                         <label className='register__fields'>
                             <p className='register__inputs'>Пароль</p>

@@ -34,7 +34,6 @@ function Login() {
         try {
             setLoading(true);
             const data = await authorization(userLoginData)
-
             setChange(false);
             if (data.token) {
                 localStorage.setItem('token', data.token);

@@ -8,11 +8,9 @@ import Footer from '../Footer/Footer';
 import Portfolio from './Portfolio/Portfolio';
 import Header from '../Header/Header';
 
-
 function Main({loggedIn}) {
 
     return (
-
         <div className='page'>
             <Header loggedIn={loggedIn} />
             <main>
@@ -24,8 +22,7 @@ function Main({loggedIn}) {
             </main>
             <Footer />
         </div>
-    );
-
+ );
 }
 
 export default Main;

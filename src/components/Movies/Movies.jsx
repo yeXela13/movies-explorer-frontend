@@ -41,32 +41,35 @@ function Movies() {
       setSearchError("Нужно ввести ключевое слово");
       return;
     }
-    if (searchResults.length > 0) {
-      const movies = searchResults.filter(
-        (movie) =>
-          movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
-          movie.nameEN.toLowerCase().includes(search.toLowerCase())
-      );
-      setData(movies);
-      localStorage.setItem("movies", JSON.stringify(movies));
-    } else {
+    if (!searchPerformed) {
       setIsLoading(true);
-      setSearchPerformed(true);
       findMovies()
         .then((e) => {
-          let movies = e.filter(
+          let movies = e;
+          setData(movies);
+          setSearchResults(movies);
+          const filteredMovies = movies.filter(
             (movie) =>
               movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
               movie.nameEN.toLowerCase().includes(search.toLowerCase())
           );
-          setData(movies);
-          setSearchResults(movies);
-          localStorage.setItem("movies", JSON.stringify(movies));
+          setData(filteredMovies);
+          localStorage.setItem("movies", JSON.stringify(filteredMovies));
+          setSearchPerformed(true);
         })
         .catch((e) => setError(e))
         .finally(() => setIsLoading(false));
+    } else {
+      const searchMyResults = searchResults.filter(
+        (movie) =>
+          movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
+          movie.nameEN.toLowerCase().includes(search.toLowerCase())
+      );
+      setData(searchMyResults);
+      localStorage.setItem("movies", JSON.stringify(searchMyResults));
     }
   };
+
 
 
   const getMovies = () => {
